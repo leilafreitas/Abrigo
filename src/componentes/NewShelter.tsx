@@ -5,6 +5,7 @@ import '../styles/pages/newshelter.css';
 import 'leaflet/dist/leaflet.css';
 import { FiPlus } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 export default function NewShelter(){
     const history=useHistory();
@@ -17,6 +18,10 @@ export default function NewShelter(){
     const[twitter,setTwitter]=useState('');
     const[facebook,setFacebook]=useState('');
     const[phonenumber,setPhoneNumber]=useState('');
+    function Map(){
+
+    }
+
     function LocationMarker() {
         const map = useMapEvents({
           click() {
@@ -34,6 +39,7 @@ export default function NewShelter(){
     }
     return(
         <div id="conteiner">
+            <ArrowBackIcon className='Back' />
             <main>
                 <form className="create-shelter-form">
                     <fieldset>
@@ -46,6 +52,7 @@ export default function NewShelter(){
                             
                         >
                         <TileLayer 
+                            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                             url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
                         <LocationMarker/>                            
