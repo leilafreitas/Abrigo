@@ -9,8 +9,8 @@ function Routes(){
         <BrowserRouter>
             <Switch>
                 <Route path="/" exact component={NewShelter}/>
-                <Route path="/shelter/add" componente={NewShelter}/>
-                <Route path="/shelter/view" componente={Shelter}/>
+                <Route path="/shelter/add" component={NewShelter}/>
+                <Route path="/shelter/view" component={Shelter}/>
             </Switch>
         </BrowserRouter>
 

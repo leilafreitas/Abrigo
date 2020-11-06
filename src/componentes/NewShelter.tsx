@@ -6,35 +6,39 @@ import 'leaflet/dist/leaflet.css';
 import { FiPlus } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import iconMarker from '../utils/mapIcon';
+import {ReactComponent as Instagram} from '../images/instagram.svg';
+import {ReactComponent as Facebook} from '../images/facebook.svg';
+import {ReactComponent as Phone} from '../images/phone.svg';
+import {ReactComponent as WhatsApp} from '../images/whatsapp.svg';
 
 export default function NewShelter(){
     const history=useHistory();
     const[position,setPosition]=useState({latitude:0,longitude:0});
     const[name,setName]=useState('');
     const[about,setAbout]=useState('');
+    const[instructions,setInstructions]=useState('');
     const[open_on_weekends,setOpen_on_weekends]=useState(false);
     const[opening_hours, setOpen_hours]=useState('');
     const[intagram,setInstagram]=useState('');
     const[twitter,setTwitter]=useState('');
     const[facebook,setFacebook]=useState('');
     const[phonenumber,setPhoneNumber]=useState('');
-    function Map(){
-
-    }
-
+    const[whats,setWhats]=useState('');
     function LocationMarker() {
         const map = useMapEvents({
           click() {
             map.locate()
           },
           locationfound(e) {
+            console.log(e.latlng);
             const{lat,lng}=e.latlng;
             setPosition({latitude:lat,longitude:lng})
             map.flyTo(e.latlng, map.getZoom())
           },
         })
         return position.latitude === 0 ? null:(
-            <Marker interactive={false} position={[position.latitude,position.longitude]}/>     
+            <Marker interactive={false} icon ={iconMarker} position={[position.latitude,position.longitude]}/>     
         ) 
     }
     return(
@@ -57,14 +61,17 @@ export default function NewShelter(){
                         />
                         <LocationMarker/>                            
                         </MapContainer>
-
+                        <div className="input-block">
+                            <label htmlFor="instructions">Instruções</label>
+                            <input id="instructions" value={instructions} onChange={e=>setInstructions(e.target.value)} />
+                        </div>
 
                         <div className="input-block">
                             <label htmlFor="name">Nome</label>
                             <input id="name" value={name} onChange={e=>setName(e.target.value)} />
                         </div>
                         <div className="input-block">
-                            <label htmlFor="about">Sobre <span>Máximo de 300 caracteres</span></label>
+                            <label htmlFor="about">Descrição <span>Máximo de 300 caracteres</span></label>
                             <textarea id="name" maxLength={300} value={about} onChange={e=>setAbout(e.target.value)} />
                         </div>
                         <div className="input-block">
@@ -74,19 +81,27 @@ export default function NewShelter(){
 
                         <div className="input-block">
                         <label htmlFor="open_on_weekends">Atende fim de semana</label>
-
                         <div className="button-select">
                             <button type="button" className={open_on_weekends? "active":''} onClick={()=>setOpen_on_weekends(true)}>Sim</button>
                             <button type="button" className={!open_on_weekends? "active":''} onClick={()=>setOpen_on_weekends(false)}>Não</button>
                         </div>
                         </div>
-                        <div className="input-block">
-                            <label htmlFor="opening_hours">Horário de Funcionamento</label>
-                            <input id="opening_hours" value={opening_hours} onChange={e=>setOpen_hours(e.target.value)} />
+                        <div className="input-social-block">
+                            <Phone  style={{height:'65px',width:'65px'}} className='social'/>
+                            <input type='number' pattern="^[0-9]{11}$"  title="You can only enter numbers, with  11 characters."  placeholder='Telefone com o DDD' id="phonenumber" value={phonenumber} onChange={e=>setPhoneNumber(e.target.value)} />   
                         </div>
-
-
-
+                        <div className="input-social-block">
+                            <Instagram style={{height:'65px',width:'65px'}} className='social'/>
+                            <input id="intagram" value={intagram} placeholder='Link para o Instagram' onChange={e=>setInstagram(e.target.value)} />   
+                        </div>
+                        <div className="input-social-block">
+                            <Facebook style={{height:'65px',width:'65px'}} className='social'/>
+                            <input id="facebook" value={facebook} placeholder='Link para o Facebook' onChange={e=>setFacebook(e.target.value)} />   
+                        </div>
+                        <div className="input-social-block">
+                            <WhatsApp style={{height:'65px',width:'65px'}} className='social'/>
+                            <input type='number' id="whats" pattern="^[0-9]{11}$"  title="You can only enter numbers, with  11 characters." placeholder='WhatsApp com o DDD' value={whats} onChange={e=>setWhats(e.target.value)} />   
+                        </div>
                     </fieldset>                    
                 </form>
             </main>
