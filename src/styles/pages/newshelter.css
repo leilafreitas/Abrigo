@@ -69,6 +69,7 @@ form.create-shelter-form {
   
   form.create-shelter-form .input-block + .input-block {
     margin-top: 24px;
+    max-height: 150px;
   }
 
   form.create-shelter-form .input-social-block {
@@ -134,7 +135,7 @@ form.create-shelter-form {
     width: 100%;
     height: 96px;
     background: #F5F8FA;
-    border: 1px dashed #96D2F0;
+    border: 1px dashed #BF6B21;
     border-radius: 20px;
     cursor: pointer;
 
@@ -160,9 +161,9 @@ form.create-shelter-form {
   }
   
   form.create-shelter-form .input-block .button-select button.active {
-    background: #EDFFF6;
-    border: 1px solid #A1E9C5;
-    color: #37C77F;
+    background: rgba(236, 227, 245, 0.8);
+    border: 1px solid #b972c7;
+    color: rgba(152,62,255,0.8);
   }
   
   form.create-shelter-form .input-block .button-select button:first-child {
@@ -181,7 +182,7 @@ form.create-shelter-form {
     height: 64px;
     border: 0;
     cursor: pointer;
-    background: #3CDC8C;
+    background: rgba(152,62,255,0.8);
     border-radius: 20px;
     color: #FFFFFF;
     font-weight: 800;
@@ -190,7 +191,7 @@ form.create-shelter-form {
     justify-content: center;
     align-items: center;
   
-    transition: background-color 0.2s;
+    transition: all ease .2s;
   }
   
   form.create-shelter-form button.confirm-button svg {
@@ -198,7 +199,8 @@ form.create-shelter-form {
   }
   
   form.create-shelter-form button.confirm-button:hover {
-    background: #36CF82;
+    background:rgba(152,62,255,0.95);
+    transform: scale(1.1);
   }
 
 input::-webkit-outer-spin-button,

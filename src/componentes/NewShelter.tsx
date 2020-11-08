@@ -1,9 +1,7 @@
-import React,{useState} from 'react';
+import React,{useState,FormEvent,ChangeEvent} from 'react';
 import { MapContainer, Marker, TileLayer,useMapEvents} from 'react-leaflet';
-import {LeafletMouseEvent} from 'leaflet';
 import '../styles/pages/newshelter.css';
 import 'leaflet/dist/leaflet.css';
-import { FiPlus } from "react-icons/fi";
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import iconMarker from '../utils/mapIcon';
@@ -11,6 +9,7 @@ import {ReactComponent as Instagram} from '../images/instagram.svg';
 import {ReactComponent as Facebook} from '../images/facebook.svg';
 import {ReactComponent as Phone} from '../images/phone.svg';
 import {ReactComponent as WhatsApp} from '../images/whatsapp.svg';
+import {ReactComponent as Photo} from '../images/photo.svg';
 
 export default function NewShelter(){
     const history=useHistory();
@@ -25,6 +24,8 @@ export default function NewShelter(){
     const[facebook,setFacebook]=useState('');
     const[phonenumber,setPhoneNumber]=useState('');
     const[whats,setWhats]=useState('');
+    const[images,setFiles]=useState<File[]>([]);
+    const[previewImages,setPreview]=useState<string[]>([]);
     function LocationMarker() {
         const map = useMapEvents({
           click() {
@@ -41,6 +42,18 @@ export default function NewShelter(){
             <Marker interactive={false} icon ={iconMarker} position={[position.latitude,position.longitude]}/>     
         ) 
     }
+    function handleSelectImages(event:ChangeEvent<HTMLInputElement>){
+        if(!event.target.files){
+          return;
+        }
+        const selectedImages=Array.from(event.target.files);
+        setFiles(selectedImages);
+        const selectedImagesPreviw= selectedImages.map(image =>{
+          return URL.createObjectURL(image);
+        })
+        setPreview(selectedImagesPreviw);
+    
+      }
     return(
         <div id="conteiner">
             <ArrowBackIcon className='Back' />
@@ -62,7 +75,7 @@ export default function NewShelter(){
                         <LocationMarker/>                            
                         </MapContainer>
                         <div className="input-block">
-                            <label htmlFor="instructions">Instruções</label>
+                            <label htmlFor="instructions">Informações Complementares de Endereço</label>
                             <input id="instructions" value={instructions} onChange={e=>setInstructions(e.target.value)} />
                         </div>
 
@@ -74,6 +87,26 @@ export default function NewShelter(){
                             <label htmlFor="about">Descrição <span>Máximo de 300 caracteres</span></label>
                             <textarea id="name" maxLength={300} value={about} onChange={e=>setAbout(e.target.value)} />
                         </div>
+                        <div className="input-block">
+                        <label htmlFor="images">Fotos</label>
+                        <div className="images-container">
+                            {
+                            previewImages.map(image=>{
+                                return (
+                                <img src={image} alt="" key={image}/>
+                                )
+                            })
+                            }
+                        <label htmlFor='image[]' className="new-image">
+                            <Photo style={{height:'40px',width:'40px'}}/>
+                        </label>
+                        
+                        </div>
+                        <input multiple onChange={handleSelectImages} type="file" id="image[]"/>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Dados para Contato</legend>
                         <div className="input-block">
                         <label htmlFor="opening_hours">Horário de Funcionamento</label>
                         <input id="opening_hours" value={opening_hours} onChange={e=>setOpen_hours(e.target.value)} />
@@ -102,7 +135,10 @@ export default function NewShelter(){
                             <WhatsApp style={{height:'65px',width:'65px'}} className='social'/>
                             <input type='number' id="whats" pattern="^[0-9]{11}$"  title="You can only enter numbers, with  11 characters." placeholder='WhatsApp com o DDD' value={whats} onChange={e=>setWhats(e.target.value)} />   
                         </div>
-                    </fieldset>                    
+                    </fieldset> 
+                    <button className="confirm-button" type="submit">
+                        Confirmar
+                    </button>                   
                 </form>
             </main>
         </div>
