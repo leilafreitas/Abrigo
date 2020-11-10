@@ -8,7 +8,7 @@ function Routes(){
     return(
         <BrowserRouter>
             <Switch>
-                <Route path="/" exact component={NewShelter}/>
+                <Route path="/" exact component={map}/>
                 <Route path="/shelter/add" component={NewShelter}/>
                 <Route path="/shelter/view" component={Shelter}/>
             </Switch>
