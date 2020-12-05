@@ -1,6 +1,10 @@
 import {Router} from 'express';
 import multer from 'multer';
-
+import uploadsConfig from './config/upload';
+import abrigoController from   './controller/AbrigoController';
 const routes= Router();
-
+const upload = multer(uploadsConfig);
+routes.post('/abrigos',upload.array('images'),abrigoController.create);
+//routes.get('/orphanages',abrigoController.index);
+routes.get('/abrigos/:id',abrigoController.findOne);
 export default routes;

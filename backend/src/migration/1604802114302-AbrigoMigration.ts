@@ -1,6 +1,6 @@
 import {MigrationInterface, Table, QueryRunner} from "typeorm";
 
-export class UserMigration1604802114302 implements MigrationInterface {
+export class AbrigoMigration1604802114302 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table({
             name:'abrigos',
