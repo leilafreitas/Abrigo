@@ -1,13 +1,13 @@
 import {getRepository} from "typeorm";
 import {NextFunction, Request, Response} from "express";
 import Abrigo from "../entity/Abrigo";
-import * as Yup from 'yup';
+import  * as Yup from 'yup';
 import AbrigoView from "../views/AbrigoView";
 
 export default {
 
     async create(req:Request,res:Response){
-       console.log('AQUI');
+
         const{
             name,
             latitude,
@@ -39,7 +39,6 @@ export default {
             whatsapp,
             images
         }
-        console.log('Antes do schema AQUI');
         const schema = Yup.object().shape({
             name:Yup.string().required(),
             latitude:Yup.number().required(),
@@ -62,11 +61,9 @@ export default {
             abortEarly:false,
 
         });
-        console.log('ger repository');
         const abrigoRepository = getRepository(Abrigo)
         const abrigo = abrigoRepository.create(data);
-        console.log('depois do create data ');
-        await this.abrigoRepository.save(abrigo);
+        await abrigoRepository.save(abrigo);
         
         return res.json(abrigo)
     },

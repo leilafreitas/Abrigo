@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import './connection';
 import path from 'path';
 import cors from 'cors';
