@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import { useHistory } from "react-router-dom";
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import iconMarker from '../utils/mapIcon';
+import api from '../services/api';
 import {ReactComponent as Instagram} from '../images/instagram.svg';
 import {ReactComponent as Facebook} from '../images/facebook.svg';
 import {ReactComponent as Phone} from '../images/phone.svg';
@@ -19,8 +20,7 @@ export default function NewShelter(){
     const[instructions,setInstructions]=useState('');
     const[open_on_weekends,setOpen_on_weekends]=useState(false);
     const[opening_hours, setOpen_hours]=useState('');
-    const[intagram,setInstagram]=useState('');
-    const[twitter,setTwitter]=useState('');
+    const[instagram,setInstagram]=useState('');
     const[facebook,setFacebook]=useState('');
     const[phonenumber,setPhoneNumber]=useState('');
     const[whats,setWhats]=useState('');
@@ -38,6 +38,7 @@ export default function NewShelter(){
             map.flyTo(e.latlng, map.getZoom())
           },
         })
+
         return position.latitude === 0 ? null:(
             <Marker interactive={false} icon ={iconMarker} position={[position.latitude,position.longitude]}/>     
         ) 
@@ -53,12 +54,35 @@ export default function NewShelter(){
         })
         setPreview(selectedImagesPreviw);
     
-      }
+    }
+    async function handleSubmit(event:FormEvent){
+        event.preventDefault();
+        const{latitude,longitude}=position;
+        const data= new FormData();
+        data.append('name',name);
+        data.append('latitude',String(latitude));
+        data.append('longitude',String(longitude));
+        data.append('about',about);
+        data.append('instructions',instructions);
+        data.append('open_on_weekends',String(open_on_weekends));
+        data.append('opening_hours',opening_hours);
+        data.append('phonenumber',String(phonenumber));
+        data.append('instagram',instagram);
+        data.append('facebook',facebook);
+        data.append('whatsapp',String(whats));
+        images.forEach(image=>{
+          data.append('images',image)
+        });
+        await api.post('abrigos',data);
+        alert('Cadastro realizado com Sucesso');
+        history.push('/');
+    
+    }
     return(
         <div id="conteiner">
-            <ArrowBackIcon className='Back' />
+            <ArrowBackIcon className='Back' onClick={()=>history.push('/')}/>
             <main>
-                <form className="create-shelter-form">
+                <form onSubmit={handleSubmit} className="create-shelter-form">
                     <fieldset>
                         <legend>Dados do Abrigo</legend>
                         <MapContainer
@@ -125,7 +149,7 @@ export default function NewShelter(){
                         </div>
                         <div className="input-social-block">
                             <Instagram style={{height:'65px',width:'65px'}} className='social'/>
-                            <input id="intagram" value={intagram} placeholder='Link para o Instagram' onChange={e=>setInstagram(e.target.value)} />   
+                            <input id="instagram" value={instagram} placeholder='Link para o Instagram' onChange={e=>setInstagram(e.target.value)} />   
                         </div>
                         <div className="input-social-block">
                             <Facebook style={{height:'65px',width:'65px'}} className='social'/>

@@ -5,7 +5,6 @@ import abrigoController from   './controller/AbrigoController';
 const routes= Router();
 const upload = multer(uploadsConfig);
 routes.post('/abrigos',upload.array('images'),abrigoController.create);
-//routes.post('/abrigos',abrigoController.create);
-//routes.get('/orphanages',abrigoController.index);
+routes.get('/abrigos',abrigoController.index);
 routes.get('/abrigos/:id',abrigoController.findOne);
 export default routes;

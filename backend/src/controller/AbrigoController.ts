@@ -4,7 +4,16 @@ import Abrigo from "../entity/Abrigo";
 import  * as Yup from 'yup';
 import AbrigoView from "../views/AbrigoView";
 
+
 export default {
+    async index(req:Request,res:Response){
+        const abrigoRepository= getRepository(Abrigo);
+        const lista_de_abrigos=await abrigoRepository.find({
+                relations:['images']
+        });
+        return res.json(AbrigoView.renderMany(lista_de_abrigos));
+        
+    },
 
     async create(req:Request,res:Response){
 
@@ -47,10 +56,10 @@ export default {
             instructions:Yup.string().required(),
             open_on_weekends:Yup.boolean().required(),
             opening_hours:Yup.string().required(), 
-            phonenumber:Yup.string(),
+            phonenumber:Yup.string().max(11),
             instagram:Yup.string(),
             facebook:Yup.string(),
-            whatsapp:Yup.string(),
+            whatsapp:Yup.string().max(11),
             images:Yup.array(
                 Yup.object().shape({
                     path:Yup.string().required()

@@ -6,9 +6,25 @@ import '../styles/pages/map.css';
 import {FiPlus,FiArrowRight} from 'react-icons/fi';
 import DogIcon from '../images/dog.png';
 import bandeira from '../images/bandeira_rn.png';
-
+import api from '../services/api';
+import MapIcon from '../utils/mapIcon';
+interface Shelter {
+    id:number,
+    latitude:number,
+    longitude:number,
+    name:string
+}
 function PetsMap(){
 
+        let [abrigo,setAbrigo]=useState<Shelter[]>([]);
+    
+        useEffect(()=>{
+            api.get('abrigos').then(response=>{
+                setAbrigo(response.data);
+                console.log(abrigo);
+            })
+        }    
+        ,[]);
     return(
         <div className="page-map">
             <aside>
@@ -33,7 +49,23 @@ function PetsMap(){
             className='map-container'
             >
                 <TileLayer url='https://a.tile.openstreetmap.org/{z}/{x}/{y}.png'/>
-  
+                {abrigo.map(abrigo =>{
+                    return (
+                            <Marker
+                                icon={MapIcon}
+                                position={[abrigo.latitude, abrigo.longitude]}
+                                key={abrigo.id}
+                            >
+                                <Popup closeButton={false} minWidth={248} maxWidth={240} className='map-popup'>
+                                    {abrigo.name}
+                                    <Link to={`/shelter/${abrigo.id}`}>
+                                        <FiArrowRight size={20} color='FFF'/>
+                                    </Link>
+                                </Popup>
+                            </Marker>
+                            
+                    )
+                })}
                 
             </MapContainer>
             <Link to="/shelter/add" className="create-shelter">

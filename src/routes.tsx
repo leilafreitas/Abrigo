@@ -10,7 +10,7 @@ function Routes(){
             <Switch>
                 <Route path="/" exact component={map}/>
                 <Route path="/shelter/add" component={NewShelter}/>
-                <Route path="/shelter/view" component={Shelter}/>
+                <Route path="/shelter/:id" component={Shelter}/>
             </Switch>
         </BrowserRouter>
 

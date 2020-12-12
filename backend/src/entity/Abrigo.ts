@@ -6,9 +6,9 @@ export default class Abrigo{
     id:number;
     @Column()
     name:string;
-    @Column()
+    @Column({ type: 'decimal', precision: 12, scale: 10 })
     latitude:number;
-    @Column()
+    @Column({ type: 'decimal', precision: 12, scale: 10 })
     longitude:number;
     @Column()
     about:string;

@@ -20,14 +20,14 @@ export class AbrigoMigration1604802114302 implements MigrationInterface {
                 {
                     name:'latitude',
                     type:'decimal',
-                    scale:4,
-                    precision:10,
+                    scale:10,
+                    precision:12,
                 },
                 {
                     name:'longitude',
                     type:'decimal',
-                    scale:4,
-                    precision:10,
+                    scale:10,
+                    precision:12,
                 },
                 {
                    name:'about',
