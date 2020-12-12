@@ -83,7 +83,7 @@ export default function Shelter(){
   
               <div className="map-container">
                 <MapContainer 
-                  center={[-6.2141753,-38.4958464]}
+                  center={[abrigo.latitude,abrigo.longitude]}
                   zoom={16} 
                   style={{ width: '100%', height: 280 }}
                   dragging={false}
